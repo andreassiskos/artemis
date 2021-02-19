@@ -548,6 +548,27 @@ services:
         command:
             - graphql-engine
             - serve
+    dataplane_msms:
+        build: ./BGP-Verification-and-Impact-Estimation
+        container_name: dataplane_msms
+        restart: always
+        networks:
+            - artemis
+        environment:
+            HASURA_HOST: ${HASURA_HOST}
+            HASURA_PORT: ${HASURA_PORT}
+            HASURA_GRAPHQL_ACCESS_KEY: ${HASURA_SECRET_KEY}
+            DB_USER: ${DB_USER}
+            DB_PASS: ${DB_PASS}
+            DB_HOST: ${DB_HOST}
+            DB_PORT: ${DB_PORT}
+            DB_NAME: ${DB_NAME}
+        volumes:
+            - ./dataplane/:/root/
+            - ./dataplane/db.py:/root/db.py
+            - ./dataplane/application.py:/root/application.py
+            - ./local_configs/backend/config.yaml:/root/config.yaml
+            - ./local_configs/backend/dataplane_config.yaml:/root/dataplane_config.yaml
 
 networks:
     artemis:
